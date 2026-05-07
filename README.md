@@ -26,6 +26,28 @@ Webbasiertes Kassensystem für ein Café, entwickelt im Rahmen eines Hochschulpr
 - IntelliJ IDEA (empfohlen)
 
 ---
+## Schnellstart 
+
+### Demo-Modus starten
+
+```bash
+java -jar kassensystem-0.0.1-SNAPSHOT.jar --spring.profiles.active=demo
+```
+Die Anwendung ist dann erreichbar unter: `http://localhost:8080`
+
+### Zugangsdaten
+
+| Rolle | Benutzername | Passwort    |
+|---|---|-------------|
+| Manager | `Tobias` | `tobias123` |
+| Kassierer | `Stefan` | `stefan123` |
+
+
+### Hinweis
+
+Im Demo-Modus wird eine H2 In-Memory Datenbank verwendet. Die Testdaten werden automatisch beim Start eingespielt.
+
+---
 
 ## Projekt starten (IntelliJ)
 
