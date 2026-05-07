@@ -521,6 +521,7 @@ public class VerkaufView extends HorizontalLayout implements BeforeEnterObserver
             if ("bestand-geaendert".equals(event) || "lager-geaendert".equals(event)) {
                 attachEvent.getUI().access(() -> {
                     try {
+                        pruefeWarenkorb();
                         ladeArtikelGrid();
                     } catch (Exception ex) {
                         FehlerUI.technischerFehler(ex);
@@ -540,5 +541,17 @@ public class VerkaufView extends HorizontalLayout implements BeforeEnterObserver
             broadcasterRegistration.remove();
             broadcasterRegistration = null;
         }
+    }
+
+    /**
+     * Hilfsmethode, die überprüft, ob sich der Bestand eines Artikels verändert hat. Der Warenkorb wird
+     * dementsprechend aktualisiert.
+     */
+    private void pruefeWarenkorb() {
+        warenkorbListe.removeIf(e -> {
+            Artikel aktuell = artikelService.findArtikelById(e.artikel.getId());
+            return aktuell.getBestand() < e.menge;
+        });
+        aktualisiereWarenkorbUI();
     }
 }

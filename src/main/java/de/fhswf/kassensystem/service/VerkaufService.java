@@ -93,7 +93,8 @@ public class VerkaufService {
 
         // Bestandsabbuchung gehört in die Transaktion rein
         for (Verkaufsposition pos : positionen) {
-            Artikel artikel = pos.getArtikel();
+            Artikel artikel = artikelRepository.findById(pos.getArtikel().getId())
+                    .orElseThrow(() -> new UngueltigeEingabeException("Artikel nicht gefunden"));
             if (artikel.getBestand() < 999) {
                 int neuerBestand = artikel.getBestand() - pos.getMenge();
                 if (neuerBestand < 0) {
