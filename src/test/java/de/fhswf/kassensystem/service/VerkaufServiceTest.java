@@ -85,6 +85,8 @@ class VerkaufServiceTest {
         @Test
         @DisplayName("Speichert Verkauf und bucht Bestand ab")
         void verkaufKomplett_erfolg() {
+            when(artikelRepository.findById(testArtikel.getId()))
+                    .thenReturn(Optional.of(testArtikel));
             when(securityUtils.getEingeloggterUser()).thenReturn(Optional.empty());
             when(verkaufRepository.save(any())).thenAnswer(i -> i.getArgument(0));
 
@@ -110,6 +112,8 @@ class VerkaufServiceTest {
             kassierer.setId(1L);
             kassierer.setBenutzername("testkassierer");
 
+            when(artikelRepository.findById(testArtikel.getId()))
+                    .thenReturn(Optional.of(testArtikel));
             when(securityUtils.getEingeloggterUser())
                     .thenReturn(Optional.of(kassierer));
             when(verkaufRepository.save(any())).thenAnswer(i -> i.getArgument(0));
@@ -125,6 +129,8 @@ class VerkaufServiceTest {
         @Test
         @DisplayName("Verknüpft Positionen bidirektional mit Verkauf")
         void verkaufKomplett_positionenVerknuepft() {
+            when(artikelRepository.findById(testArtikel.getId()))
+                    .thenReturn(Optional.of(testArtikel));
             when(securityUtils.getEingeloggterUser()).thenReturn(Optional.empty());
             when(verkaufRepository.save(any())).thenAnswer(i -> i.getArgument(0));
 
@@ -155,7 +161,7 @@ class VerkaufServiceTest {
                     List.of(),
                     Zahlungsart.BAR,
                     BigDecimal.ZERO
-                    ))
+            ))
                     .isInstanceOf(UngueltigeEingabeException.class)
                     .hasMessageContaining("leer");
 
@@ -169,7 +175,7 @@ class VerkaufServiceTest {
                     List.of(testPosition),
                     Zahlungsart.BAR,
                     null
-                    ))
+            ))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("Rabatt");
 
@@ -188,47 +194,5 @@ class VerkaufServiceTest {
 
             verify(verkaufRepository, never()).save(any());
         }
-
-//        @Test
-//        @DisplayName("Wirft BestandUnterschrittenException wenn Bestand nicht ausreicht")
-//        void verkaufKomplett_bestandUnterschritten() {
-//            testArtikel.setBestand(1);
-//            testPosition.setMenge(5);
-//
-//            assertThatThrownBy(() -> verkaufService.verkaufKomplett(
-//                    List.of(testPosition),
-//                    Zahlungsart.BAR,
-//                    BigDecimal.ZERO,
-//                    new BigDecimal("5.00")))
-//                    .isInstanceOf(BestandUnterschrittenException.class);
-//
-//            verify(artikelRepository, never()).save(any());
-//            verify(verkaufRepository, never()).save(any());
-//        }
-
-//        @Test
-//        @DisplayName("Bestand wird nicht abgebucht wenn Transaktion fehlschlägt")
-//        void verkaufKomplett_keinTeilspeichern() {
-//            testArtikel.setBestand(1);
-//
-//            Verkaufsposition position2 = new Verkaufsposition();
-//            Artikel artikel2 = new Artikel();
-//            artikel2.setId(2L);
-//            artikel2.setName("Tee");
-//            artikel2.setBestand(0);
-//            position2.setArtikel(artikel2);
-//            position2.setMenge(5);
-//            position2.setEinzelpreis(new BigDecimal("1.50"));
-//
-//            assertThatThrownBy(() -> verkaufService.verkaufKomplett(
-//                    List.of(testPosition, position2),
-//                    Zahlungsart.BAR,
-//                    BigDecimal.ZERO,
-//                    new BigDecimal("6.50")))
-//                    .isInstanceOf(BestandUnterschrittenException.class);
-//
-//            verify(artikelRepository, never()).save(any());
-//            verify(verkaufRepository, never()).save(any());
-//        }
     }
  }
