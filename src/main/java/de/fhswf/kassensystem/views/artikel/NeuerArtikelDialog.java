@@ -62,7 +62,8 @@ public class NeuerArtikelDialog extends BaseDialog {
         body.setWidthFull();
         body.setPadding(false);
         body.setSpacing(false);
-        body.getStyle().set("padding", "1.5rem").set("gap", "1.25rem").set("background", "white");
+        body.getStyle().set("padding", "1.5rem").set("gap", "1.25rem").set("background", "white")
+                .set("overflow-y", "auto").set("max-height", "65vh");
         body.add(felder, bildUpload);
         return body;
     }

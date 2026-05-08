@@ -170,7 +170,7 @@ class DiagrammFactory {
         cw.getElement().setProperty("innerHTML",
                 "<canvas id='" + cid + "' width='200' height='200' style='display:block;'></canvas>");
         String js = balken ? buildBalkenJs(cid, daten) : buildTorteJs(cid, daten);
-        cw.getElement().executeJs("setTimeout(function() { " + js + " }, 100);");
+        cw.getElement().executeJs("requestAnimationFrame(function() { setTimeout(function() { " + js + " }, 100); });");
         return cw;
     }
 
