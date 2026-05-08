@@ -1,6 +1,6 @@
 [build]
 builder = "NIXPACKS"
-buildCommand = "JAVA_HOME=/usr/lib/jvm/java-21 mvn clean package -Pproduction -DskipTests"
+buildCommand = "mvn clean package -Pproduction -DskipTests"
 
 [deploy]
 startCommand = "java -jar target/kassensystem-0.0.1-SNAPSHOT.jar"
