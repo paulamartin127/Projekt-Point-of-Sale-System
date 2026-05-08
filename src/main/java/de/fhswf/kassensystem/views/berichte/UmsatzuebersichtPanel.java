@@ -192,7 +192,8 @@ class UmsatzuebersichtPanel extends VerticalLayout {
                             .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
                     liste.add(ProduktZeileFactory.create(
                             e.getKey().getName(), e.getKey().getKategorie().getName(),
-                            e.getValue()[0] + "x", BerichteUtils.fp(u)));
+                            e.getValue()[0] + "x", BerichteUtils.fp(u),
+                            e.getKey().getBild()));
                 });
         if (stats.isEmpty()) liste.add(BerichteUtils.leerSpan("Keine Verkäufe an diesem Tag."));
 

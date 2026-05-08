@@ -6,6 +6,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import de.fhswf.kassensystem.model.dto.ArtikelStatistikDTO;
 
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -52,7 +53,8 @@ class ArtikelstatistikPanel extends VerticalLayout {
             liste.add(buildStatistikZeile(dto.getArtikel().getName(),
                     dto.getArtikel().getKategorie().getName(),
                     dto.getAnzahlVerkauft() + "x",
-                    dto.getAnzahlVerkauft(), maxAnzahl));
+                    dto.getAnzahlVerkauft(), maxAnzahl,
+                    dto.getArtikel().getBild()));
         }
         if (statistiken.isEmpty()) liste.add(BerichteUtils.leerSpan("Keine Verkaufsdaten der letzten 30 Tage."));
 
@@ -68,9 +70,10 @@ class ArtikelstatistikPanel extends VerticalLayout {
      * @param anzahl    formatierte Verkaufsanzahl (z.B. "42x")
      * @param anzahlInt numerischer Wert für die Balkenbreite
      * @param maxAnzahl Maximalwert (= 100 % Balkenbreite)
+     * @param bild Artikelbild als byte-Array oder Fallback-Icon
      */
     private VerticalLayout buildStatistikZeile(String name, String kat,
-                                               String anzahl, int anzahlInt, int maxAnzahl) {
+                                               String anzahl, int anzahlInt, int maxAnzahl, byte[] bild) {
         HorizontalLayout kopf = new HorizontalLayout();
         kopf.setWidthFull();
         kopf.setAlignItems(FlexComponent.Alignment.CENTER);
@@ -79,7 +82,22 @@ class ArtikelstatistikPanel extends VerticalLayout {
 
         Div av = new Div();
         av.getStyle().set("width", "2.25rem").set("height", "2.25rem").set("border-radius", "9999px")
-                .set("background", "#efecff").set("flex-shrink", "0");
+                .set("background", "#efecff").set("flex-shrink", "0")
+                .set("overflow", "hidden").set("display", "flex")
+                .set("align-items", "center").set("justify-content", "center");
+
+        if (bild != null && bild.length > 0) {
+            String base64 = Base64.getEncoder().encodeToString(bild);
+            Image img = new Image("data:image/jpeg;base64," + base64, name);
+            img.getStyle().set("width", "100%").set("height", "100%").set("object-fit", "cover");
+            av.add(img);
+        } else {
+            Span icon = new Span("lunch_dining");
+            icon.addClassName("material-symbols-outlined");
+            icon.getStyle().set("font-size", "1.1rem").set("color", "#82746d");
+            av.add(icon);
+        }
+
         Span n = new Span(name);
         n.getStyle().set("font-weight", "700").set("font-size", "0.875rem").set("color", "#553722")
                 .set("font-family", "'Plus Jakarta Sans', sans-serif");
