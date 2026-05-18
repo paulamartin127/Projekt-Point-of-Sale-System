@@ -4,6 +4,21 @@ Webbasiertes Kassensystem für ein Café, entwickelt im Rahmen eines Hochschulpr
 
 ---
 
+## Online-Demo
+Die Anwendung ist live erreichbar unter:
+https://projekt-point-of-sale-system-production.up.railway.app/
+
+---
+
+## Zugangsdaten
+
+| Rolle | Benutzername | Passwort    |
+|---|---|-------------|
+| Manager | `Tobias` | `tobias123` |
+| Kassierer | `Stefan` | `stefan123` |
+
+---
+
 ## Technologie-Stack
 
 | Schicht | Technologie |
@@ -85,15 +100,6 @@ mvn spring-boot:run "-Dspring-boot.run.profiles=dev"
 Die Anwendung ist erreichbar unter: [http://localhost:8080](http://localhost:8080)
 
 Beim ersten Start legt der `DataInitializer` automatisch alle Stammdaten (Artikel, Kategorien, MwSt-Sätze) sowie die Standard-Benutzer an.
-
----
-
-## Zugangsdaten
-
-| Rolle | Benutzername | Passwort    |
-|---|---|-------------|
-| Manager | `Tobias` | `tobias123` |
-| Kassierer | `Stefan` | `stefan123` |
 
 ---
 
